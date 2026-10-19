@@ -11,7 +11,7 @@
 - Regex shader 编译缓存：`ShaderCache`
 - 默认 BGA skip 开关：`$bga = 1`（启动时启用）
 
-请通过此目录中的 `3DMigoto Loader.exe` 启动或注入游戏，并确保它与 `3dmigoto.dll`、`d3dx.ini` 位于同一 loader 目录。不要把 `ShaderCache` 当作原始配置备份；需要备份的主要文件是 `d3dx.ini`、本说明和任何实际使用的 `ShaderFixes`。
+请自行下载`3DMigoto 1.3.16.0`以及 `3DMigoto Loader.exe` ，然后使用Loader注入游戏，并确保它们与 `3dmigoto.dll`、`d3dx.ini` 位于同一 loader 目录。不要把 `ShaderCache` 当作原始配置备份；需要备份的主要文件是 `d3dx.ini`、本说明和任何实际使用的 `ShaderFixes`。
 
 ## 常用按键
 
@@ -31,7 +31,7 @@ F8 FrameAnalysis 配置为导出 render target、贴图、constant buffer 文本
 
 所有下列 `ShaderOverrideBga*` 规则都受 `$bga` 控制：只有 `$bga == 1` 时才执行 `handling = skip`。因此 F7 可在隐藏这些元素与恢复它们之间切换。
 
-当前配置共有 16 条 skip 规则：
+当前配置共有 17 条 skip 规则：
 
 | 配置名称 | 3DMigoto shader hash |
 | --- | --- |
@@ -50,9 +50,6 @@ F8 FrameAnalysis 配置为导出 render target、贴图、constant buffer 文本
 | `ShaderOverrideBgaSkyNoteA` | `517e1b5a21a44c05` |
 | `ShaderOverrideBgaSkyNoteB` | `6dda9a88068c9c42` |
 | `ShaderOverrideBgaSkyNoteBody` | `9b90b45b412d4907` |
-| `ShaderOverrideBgaTokonagiHexAtlas` | `f73b4e715a508828` |
-
-The TOKONAGI noise regex rules below are separate from the BGA skip switch. F7 does not disable or enable these shader edits.
 
 ## TOKONAGI 噪点区域规则
 
@@ -65,16 +62,3 @@ The TOKONAGI noise regex rules below are separate from the BGA skip switch. F7 d
 | `2643171e8ad9cbdc` | 最新 `TOKONAGI.rdc`，EID 1929（draw 145） | 对应另一寄存器分配的 shader 变体；用原有随机因子 `r3.x` 替代位置区域因子。 |
 
 RenderDoc EID 1936 和 EID 1929 的 pass 都读取主画面以及 `256×256` 贴图，并把结果写入新的全尺寸 render target。对应的 3DMigoto hash 通过抓帧中的输入纹理、输出和 shader 运算序列对照确认。
-
-### 匹配方式与适用范围
-
-这几段使用 3DMigoto `ShaderRegex`，通过 pixel shader 汇编中的指令序列匹配，而不是在 regex section 中直接按 hash 限定。文档中列出的 hash 是抓帧分析得到的对应 shader；regex 实际是否应用，取决于目标 shader 汇编是否包含相应序列。因此，游戏或 shader 编译器更新后应重新抓帧并检查匹配结果。
-
-这些修改在配置中没有绑定 F7，也没有设置专用启用键。只要 3DMigoto 加载 `d3dx.ini` 且 shader 指令匹配，patch 就会自动应用。完成配置修改后可用 F10 重载；若要确认视觉效果，仍需在游戏中重新录制并检查。
-
-## 分析与备份说明
-
-- `FrameAnalysis-*` 是 3DMigoto 抓帧输出，可用来核对 draw 顺序、输入贴图、constant buffer 与 shader hash；单独备份时体积可能较大。
-- RenderDoc `.rdc` 文件是独立的 capture。EID 只有结合相应的 `.rdc` 才有意义。
-- `ShaderCache` 中的文件由 3DMigoto 自动生成或缓存；本目录中的 `d3dx.ini` 才是 regex 规则的配置来源。
-- 当前已完成静态抓帧对应与配置规则记录；噪点覆盖扩展后的最终视觉效果仍需游戏内核验。
