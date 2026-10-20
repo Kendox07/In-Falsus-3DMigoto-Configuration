@@ -1,6 +1,6 @@
 # In Falsus 3DMigoto 配置说明
 
-本文档说明同目录下的 [`d3dx.ini`](./d3dx.ini) 中与 In Falsus 相关的设置、BGA 隐藏规则和 TOKONAGI 噪点 shader 修改。其余未提到的章节主要是随 3DMigoto 提供的通用配置模板，具体选项说明仍以 `d3dx.ini` 内的注释和 3DMigoto 文档为准。
+本文档说明同目录下的 [`d3dx.ini`](./d3dx.ini) 中与 In Falsus 相关的设置、BGA 隐藏规则和 TOKONAGI 噪点 shader 修改。其余未提到的章节主要是随 3DMigoto 提供的通用配置模板，具体选项说明仍以 `d3dx.ini` 内的注释和 3DMigoto 文档为准。该文档未经过人工审核，以已有注释为准
 
 ## 运行环境
 
